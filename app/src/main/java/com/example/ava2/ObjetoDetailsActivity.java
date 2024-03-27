@@ -71,53 +71,6 @@ public class ObjetoDetailsActivity extends AppCompatActivity {
         });
     }
 
-
-    /**
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_objeto_details);
-
-        editTextNome = findViewById(R.id.editTextNome);
-        editTextQuantidade = findViewById(R.id.editTextQuantidade);
-        editTextPreco = findViewById(R.id.editTextPreco);
-        checkBoxDisponivel = findViewById(R.id.checkBoxDisponivel);
-        buttonSalvar = findViewById(R.id.buttonSalvar);
-        buttonExcluir = findViewById(R.id.buttonExcluir);
-
-        dataSource = new ObjetoDataSource(this);
-
-        Intent intent = getIntent();
-        objetoId = intent.getLongExtra("objeto_id", -1);
-
-        if (objetoId != -1) {
-            dataSource.open();
-            final Objeto objeto = dataSource.getObjeto(objetoId);
-            dataSource.close();
-
-            if (objeto != null) {
-                editTextNome.setText(objeto.getNome());
-                editTextQuantidade.setText(String.valueOf(objeto.getQuantidade()));
-                editTextPreco.setText(String.valueOf(objeto.getPreco()));
-                checkBoxDisponivel.setChecked(objeto.isDisponivel());
-            }
-        }
-
-        buttonSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                salvarAlteracoes();
-            }
-        });
-
-        buttonExcluir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                excluirObjeto();
-            }
-        });
-    }
-*/
     private void salvarAlteracoes() {
         String nome = editTextNome.getText().toString();
         int quantidade = Integer.parseInt(editTextQuantidade.getText().toString());
