@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,14 +20,19 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonAdicionar;
     private List<Objeto> listaObjetos;
     private ObjetoDataSource dataSource;
+    private TextView textViewSomaPrecos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Inicializar os componentes da interface
         listViewObjetos = findViewById(R.id.listViewObjetos);
         buttonAdicionar = findViewById(R.id.buttonAdicionar);
+        textViewSomaPrecos = findViewById(R.id.textViewSomaPrecos);
+
+        // Inicializar o dataSource
         dataSource = new ObjetoDataSource(this);
         dataSource.open();
 
@@ -43,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Aqui você pode implementar o código para exibir os detalhes do objeto clicado
-                Objeto objetoSelecionado = listaObjetos.get(position);
-                Toast.makeText(MainActivity.this, "Objeto selecionado: " + objetoSelecionado.getNome(), Toast.LENGTH_SHORT).show();
+                Objeto objetoSelecionado = (Objeto) parent.getItemAtPosition(position);
+                Intent intent = new Intent(MainActivity.this, ObjetoDetailsActivity.class);
+                intent.putExtra("objeto_id", objetoSelecionado.getId());
+                startActivity(intent);
             }
         });
 
@@ -58,18 +66,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Listener para o clique em um item da lista
-        listViewObjetos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Aqui você pode implementar o código para abrir a tela de detalhes do objeto
-                Objeto objetoSelecionado = listaObjetos.get(position);
-                Intent intent = new Intent(MainActivity.this, ObjetoDetailsActivity.class);
-                intent.putExtra("objeto_id", objetoSelecionado.getId());
-                startActivity(intent);
-            }
-        });
+        // Calcular e exibir a soma dos preços
+        exibirSomaPrecos();
+    }
 
+    // Método para calcular e exibir a soma dos preços dos objetos disponíveis
+    private void exibirSomaPrecos() {
+        // Calcular a soma dos preços dos objetos disponíveis
+        double somaPrecos = calcularSomaPrecos(listaObjetos);
+
+        // Atualizar o texto da textViewSomaPrecos com o valor calculado
+        textViewSomaPrecos.setText("Soma dos Preços: " + somaPrecos);
     }
 
     @Override
@@ -79,6 +86,20 @@ public class MainActivity extends AppCompatActivity {
         listaObjetos.clear();
         listaObjetos.addAll(dataSource.getAllObjetos());
         ((ArrayAdapter<Objeto>)listViewObjetos.getAdapter()).notifyDataSetChanged();
+
+        // Atualizar a soma dos preços
+        exibirSomaPrecos();
+    }
+
+    // Método para calcular a soma dos preços dos objetos disponíveis
+    private double calcularSomaPrecos(List<Objeto> objetos) {
+        double somaPrecos = 0.0;
+        for (Objeto objeto : objetos) {
+            if (objeto.isDisponivel()) {
+                somaPrecos += objeto.getPreco() * objeto.getQuantidade();
+            }
+        }
+        return somaPrecos;
     }
 
     @Override

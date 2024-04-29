@@ -64,6 +64,6 @@ public class Objeto {
     // Método toString para facilitar a exibição em ListView
     @Override
     public String toString() {
-        return "ID: " + id + ", Nome: " + nome + ", Quantidade: " + quantidade + ", Preço: " + preco + ", Disponível: " + disponivel;
+        return "Nome: " + nome + ", Quantidade: " + quantidade + ", Preço: " + preco + ", Disponível: " + disponivel;
     }
 }

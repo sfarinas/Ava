@@ -85,7 +85,18 @@
                 android:fontFamily="@font/audiowide"
                 android:text="Excluir e Voltar" />
         </LinearLayout>
-    </LinearLayout>
 
+        <!-- Novo botão adicionado -->
+        <Button
+            android:id="@+id/buttonOrganizar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Organizar Banco de Dados"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/audiowide"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
